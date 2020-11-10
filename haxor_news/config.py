@@ -98,6 +98,8 @@ class Config(object):
     CONFIG_FREELANCE_ID = 'freelance_id'
     CONFIG_SHOW_TIP = 'show_tip'
     MAX_ITEM_CACHE_SIZE = 20000
+    CONFIG_STORIES_SEEN_COUNT = 'stories_seen_count'
+    CONFIG_LATEST_CMD = 'latest_cmd'
 
     def __init__(self):
         self.item_ids = []
@@ -111,6 +113,8 @@ class Config(object):
             self.load_config_item_cache,
             self.load_config_colors,
             self.load_config_show_tip,
+            self.load_config_stories_seen_count,
+            self.load_config_latest_cmd,
         ])
 
     def _init_colors(self):
@@ -205,6 +209,26 @@ class Config(object):
         """
         self.item_ids = self.load_section_list(parser,
                                                self.CONFIG_IDS)
+
+    def load_config_stories_seen_count(self, parser):
+        """Load the count stories that are already shown 
+            from ~/.haxornewsconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+        """
+        self.stories_seen_count = parser.getint(self.CONFIG_SECTION, 
+                                                self.CONFIG_STORIES_SEEN_COUNT)
+
+    def load_config_latest_cmd(self, parser):
+        """Load the latest command (top or show) that the user executed 
+            from ~/.haxornewsconfig.
+
+        :type parser: :class:`ConfigParser.RawConfigParser`
+        :param parser: An instance of `ConfigParser.RawConfigParser`.
+        """
+        self.latest_cmd = parser.get(self.CONFIG_SECTION, 
+                                                self.CONFIG_LATEST_CMD)
 
     def load_config_show_tip(self, parser):
         """Load the show tip config from ~/.haxornewsconfig.
@@ -432,5 +456,11 @@ class Config(object):
         parser.set(self.CONFIG_SECTION,
                    self.CONFIG_CACHE,
                    self.item_cache)
+        parser.set(self.CONFIG_SECTION,
+                   self.CONFIG_STORIES_SEEN_COUNT,
+                   self.stories_seen_count)        
+        parser.set(self.CONFIG_SECTION,
+                   self.CONFIG_LATEST_CMD,
+                   self.latest_cmd)
         with open(config_file_path, 'w+') as config_file:
             parser.write(config_file)

@@ -98,6 +98,11 @@ class CompleterTest(unittest.TestCase):
         expected = ['10']
         self.verify_completions(text, expected)
 
+    def test_arg_x_next(self):
+        text = ['hn next ']
+        expected = ['10']
+        self.verify_completions(text, expected)
+
     def test_arg_user(self):
         text = ['hn user ']
         expected = ['"user"']

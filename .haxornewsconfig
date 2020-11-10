@@ -19,4 +19,6 @@ clr_view_link = magenta
 clr_view_index = magenta
 item_ids = [0, 1, 2]
 item_cache = ['3', '4', '5']
+stories_seen_count = 0
+latest_cmd = top
 

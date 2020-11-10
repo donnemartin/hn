@@ -101,6 +101,9 @@ class MockHackerNewsApi(object):
     def item_ids(self, limit):
         return [item.item_id for item in self.items[:limit]]
 
+    def all_item_ids(self):
+        return [item.item_id for item in self.items]
+
     def get_item(self, item_id):
         item_id = int(item_id)
         try:
@@ -134,3 +137,6 @@ class MockHackerNewsApi(object):
 
     def job_stories(self, limit=None):
         return self.item_ids(limit)
+
+    def next_x_stories(self, start=None, end=None, post_type=None):
+        return self.all_item_ids()[start:end]

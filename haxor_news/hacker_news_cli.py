@@ -251,6 +251,25 @@ class HackerNewsCli(object):
         hacker_news.top(limit)
 
     @cli.command()
+    @click.argument('x', required=False, default=10)
+    @pass_hacker_news
+    def next(hacker_news, x):
+        """Display the next x top recent posts.
+
+        Example(s):
+            hn next
+            hn next 20
+
+        :type hacker_news: :class:`hacker_news.HackerNews`
+        :param hacker_news: An instance of `hacker_news.HackerNews`.
+
+        :param limit: specifies the number of next x ranked 
+                        items to show.
+            Optional, defaults to 10.
+        """
+        hacker_news.next(x)
+
+    @cli.command()
     @click.argument('user_id')
     @click.option('-l', '--limit', required=False, default=10)
     @pass_hacker_news

@@ -115,6 +115,24 @@ class HackerNewsTest(unittest.TestCase):
             item_ids=self.hn.hacker_news_api.top_stories(self.limit))
 
     @mock.patch('haxor_news.hacker_news.HackerNews.print_items')
+    def test_next_x_top_stories(self, mock_print_items):
+        self.hn.config.stories_seen_count = 0
+        self.hn.config.latest_cmd = "top"
+        self.hn.next(self.limit)
+        mock_print_items.assert_called_with(
+            message=self.hn.headlines_message('Next x'),
+            item_ids=self.hn.hacker_news_api.next_x_stories(0, self.limit, "top"))
+
+    @mock.patch('haxor_news.hacker_news.HackerNews.print_items')
+    def test_next_x_show_stories(self, mock_print_items):
+        self.hn.config.stories_seen_count = 0
+        self.hn.config.latest_cmd = "show"
+        self.hn.next(self.limit)
+        mock_print_items.assert_called_with(
+            message=self.hn.headlines_message('Next x'),
+            item_ids=self.hn.hacker_news_api.next_x_stories(0, self.limit, "show"))
+
+    @mock.patch('haxor_news.hacker_news.HackerNews.print_items')
     @mock.patch('haxor_news.hacker_news.click')
     @mock.patch('haxor_news.hacker_news.HackerNews.print_item_not_found')
     def test_user(self, mock_print_item_not_found,
