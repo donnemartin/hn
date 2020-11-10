@@ -147,10 +147,12 @@ class Completer(Completer):
         """
         if 'hn' not in words:
             return []
-        for subcommand, args_opts in ARGS_OPTS_LOOKUP.items():
-            if subcommand in words:
-                return [ARGS_OPTS_LOOKUP[subcommand]['args']]
-        return ['10']
+        input_subcommand = words[1]
+        if input_subcommand in ARGS_OPTS_LOOKUP:
+            return [ARGS_OPTS_LOOKUP[input_subcommand]['args']]
+        if input_subcommand in SUBCOMMANDS:
+            return ['10']
+        return []
 
     def get_completions(self, document, _):
         """Get completions for the current scope.
