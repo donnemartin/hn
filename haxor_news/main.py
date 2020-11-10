@@ -21,11 +21,8 @@ from .haxor import Haxor
 
 def cli():
     """Creates and calls Haxor."""
-    try:
-        haxor = Haxor()
-        haxor.run_cli()
-    except (EOFError, KeyboardInterrupt):
-        haxor.cli.set_return_value(None)
+    haxor = Haxor()
+    haxor.run_cli()
 
 
 if __name__ == "__main__":

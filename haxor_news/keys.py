@@ -14,7 +14,7 @@
 # language governing permissions and limitations under the License.
 
 from __future__ import print_function
-from prompt_toolkit.key_binding.manager import KeyBindingManager
+from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 
 
@@ -24,14 +24,12 @@ class KeyManager(object):
     Handle togging of:
         * Comment pagination.
 
-    :type manager: :class:`prompt_toolkit.key_binding.manager.
-        KeyBindingManager`
-    :param manager: An instance of `prompt_toolkit.key_binding.manager.
-        KeyBindingManager`.
+    :type key_bindings: :class:`prompt_toolkit.key_binding.KeyBindings`
+    :param key_bindings: An instance of `prompt_toolkit.key_binding.KeyBindings`
     """
 
     def __init__(self, set_paginate_comments, get_paginate_comments):
-        self.manager = None
+        self.key_bindings = None
         self._create_key_manager(set_paginate_comments, get_paginate_comments)
 
     def _create_key_manager(self, set_paginate_comments, get_paginate_comments):
@@ -50,13 +48,9 @@ class KeyManager(object):
         """
         assert callable(set_paginate_comments)
         assert callable(get_paginate_comments)
-        self.manager = KeyBindingManager(
-            enable_search=True,
-            enable_abort_and_exit_bindings=True,
-            enable_system_bindings=True,
-            enable_auto_suggest_bindings=True)
+        self.key_bindings = KeyBindings()
 
-        @self.manager.registry.add_binding(Keys.F2)
+        @self.key_bindings.add('f2')
         def handle_f2(_):
             """Enable/Disable paginate comments mode.
 
@@ -70,8 +64,8 @@ class KeyManager(object):
             # set_paginate_comments(not get_paginate_comments())
             pass
 
-        @self.manager.registry.add_binding(Keys.F10)
-        def handle_f10(_):
+        @self.key_bindings.add('f10')
+        def handle_f10(event):
             """Quit when the `F10` key is pressed.
 
             :type _: :class:`prompt_toolkit.Event`
@@ -79,9 +73,9 @@ class KeyManager(object):
 
             :raises: :class:`EOFError` to quit the app.
             """
-            raise EOFError
+            event.app.exit()
 
-        @self.manager.registry.add_binding(Keys.ControlSpace)
+        @self.key_bindings.add('c-space')
         def handle_ctrl_space(event):
             """Initialize autocompletion at the cursor.
 
@@ -97,4 +91,4 @@ class KeyManager(object):
             if b.complete_state:
                 b.complete_next()
             else:
-                event.cli.start_completion(select_first=False)
+                b.start_completion(select_first=False)

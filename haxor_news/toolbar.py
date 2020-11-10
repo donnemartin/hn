@@ -15,6 +15,7 @@
 
 from __future__ import print_function
 from pygments.token import Token
+from prompt_toolkit.formatted_text import PygmentsTokens
 
 
 class Toolbar(object):
@@ -38,7 +39,7 @@ class Toolbar(object):
         """
         assert callable(paginate_comments_cfg)
 
-        def get_toolbar_items(_):
+        def get_toolbar_items():
             """Return the toolbar items.
 
             :type _: :class:`prompt_toolkit.Cli`
@@ -53,10 +54,10 @@ class Toolbar(object):
             # else:
             #     paginate_comments_token = Token.Toolbar.Off
             #     paginate_comments = 'OFF'
-            return [
+            return PygmentsTokens([
                 # (paginate_comments_token,
                 #  ' [F2] Paginate Comments: {0} '.format(paginate_comments)),
                 (Token.Toolbar, ' [F10] Exit ')
-            ]
+            ])
 
         return get_toolbar_items
