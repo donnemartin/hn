@@ -178,4 +178,4 @@ class TextUtils(object):
             words = self._shlex_split(text)
             return words
         except:
-            return text
+            return []
