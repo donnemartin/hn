@@ -392,7 +392,7 @@ class HackerNews(object):
         """Create the tip about the view command.
 
         :type max_index: string
-        :param max_index: The index uppor bound, used with the
+        :param max_index: The index upper bound, used with the
             hn view [index] commend.
 
         :rtype: str
